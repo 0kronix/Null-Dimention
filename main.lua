@@ -14,8 +14,8 @@ end
 
 -- General
 local generalScripts = {
-	"constants", -- For the trinket enums and other values you would need defined globally
-	"library", -- For useful functions that are used in multiple places
+	"constants",
+	"library",
 }
 mod:LoadScripts(generalScripts)
 
