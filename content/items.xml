@@ -1,3 +1,4 @@
 <items gfxroot="gfx/items/" version="1">
-    <trinket name="Dentalion" description="Chaos!" gfx="dentalion.png" />
+    <trinket name="Predatory Penny" description="You're the victim" gfx="predatorypenny.png" />
+    <trinket name="Pop-up Ad" description="Your advertisement could be here" gfx="blank.png" />
 </items>

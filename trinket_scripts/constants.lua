@@ -1,4 +1,3 @@
-mod.RNG = RNG(Random() + 1) -- For mod:Random()
-
 --[[ Trinket enums ]]--
-TrinketType.dentalion = Isaac.GetTrinketIdByName("Dentalion")
+TrinketType.predatorypenny = Isaac.GetTrinketIdByName("Predatory Penny")
+TrinketType.popupad = Isaac.GetTrinketIdByName("Pop-up Ad")

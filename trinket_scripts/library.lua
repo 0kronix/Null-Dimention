@@ -1,32 +1,43 @@
 --[[ Utility functions ]]--
--- Replaces math.random 
-function mod:Random(min, max, rng)
-	rng = rng or mod.RNG
+local mod = NullDimention
 
-	-- Float
-	if not min and not max then
-		return rng:RandomFloat()
-
-	-- Integer
-	elseif min and not max then
-		return rng:RandomInt(min + 1)
-
-	-- Range
-	else
-		local difference = math.abs(min)
-
-		-- For ranges with negative numbers
-		if min < 0 then
-			max = max + difference
-			return rng:RandomInt(max + 1) - difference
-		-- For positive only
-		else
-			max = max - difference
-			return rng:RandomInt(max + 1) + difference
-		end
-	end
+function mod:TearsUp(firedelay, val)
+    local currentTears = 30 / (firedelay + 1)
+    local newTears = currentTears + val
+    return math.max((30 / newTears) - 1, -0.99)
 end
 
+function mod:GetMaxTrinketMultiplier(trinket, player, values)
+	values = values or {1, 2, 3}
+	local maxMulti = 0
+	if player then
+		if not player:HasTrinket(trinket) then
+			return 0
+		end
+		maxMulti = values[1]
+		if player:HasCollectible(CollectibleType.COLLECTIBLE_MOMS_BOX) and player:HasGoldenTrinket(trinket) then
+			maxMulti = values[3]
+		elseif player:HasCollectible(CollectibleType.COLLECTIBLE_MOMS_BOX) or player:HasGoldenTrinket(trinket) then
+			maxMulti = values[2]
+		end
+	else
+		for _, p in pairs(PlayerManager.GetPlayers()) do
+			local multi = 0
+			if p:HasTrinket(trinket) then
+				multi = values[1]
+				if p:HasCollectible(CollectibleType.COLLECTIBLE_MOMS_BOX) and p:HasGoldenTrinket(trinket) then
+					multi = values[3]
+				elseif p:HasCollectible(CollectibleType.COLLECTIBLE_MOMS_BOX) or p:HasGoldenTrinket(trinket) then
+					multi = values[2]
+				end
+			end
+			if maxMulti < multi then
+				maxMulti = multi
+			end
+		end
+	end
+	return maxMulti
+end
 
 -- Get a vector with a random angle
 function mod:RandomVector(length)
@@ -98,34 +109,5 @@ end
 function mod:AddEIDGoldenTrinketData(id, numbersToMultiply, extraText, maxMultiplier, language)
 	if EID then
 		EID:addGoldenTrinketMetadata(id, {extraText.Doubled, extraText.Tripled}, numbersToMultiply, maxMultiplier, language)
-	end
-end
-
-
--- Create Encyclopedia entry
-function mod:CreateEncylopedie(id, description)
-	if Encyclopedia then
-		local EncyclopediaEntry = {
-			{ -- Effect
-				{str = "Effect", fsize = 3, clr = 3, halign = 0},
-			},
-		}
-
-		-- Create the description
-		for i, line in pairs(description) do
-			-- Doesn't show up properly in the Encyclopedia
-			local text = line:gsub('{{.*}}', "")
-			text = text:gsub("↑ ", "")
-			text = text:gsub("↓ ", "")
-
-			text = {str = text}
-			table.insert(EncyclopediaEntry[1], text)
-		end
-
-		Encyclopedia.AddTrinket({
-			ID = id,
-			WikiDesc = EncyclopediaEntry,
-			ModName = mod.Name,
-		})
 	end
 end

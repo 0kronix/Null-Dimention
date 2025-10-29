@@ -1,7 +1,5 @@
 NullDimention = RegisterMod("Null Dimention", 1)
-mod = NullDimention
-
-
+local mod = NullDimention
 
 --[[ Load scripts ]]--
 function mod:LoadScripts(scripts, subfolder)
@@ -10,7 +8,6 @@ function mod:LoadScripts(scripts, subfolder)
 		include("trinket_scripts." .. subfolder .. "." .. script)
 	end
 end
-
 
 -- General
 local generalScripts = {
@@ -21,7 +18,10 @@ mod:LoadScripts(generalScripts)
 
 
 -- Trinkets
-local trinketScripts = { -- Add trinket scripts here
-    "dentalion",
+local trinketScripts = {
+    "predatorypenny",
+    "popupad",
 }
 mod:LoadScripts(trinketScripts, "trinkets")
+
+include("eid")
