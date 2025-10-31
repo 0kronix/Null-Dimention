@@ -53,10 +53,7 @@ function PredatoryPenny:onCoinPickup(coin, collider)
     if coin.SubType ~= CoinSubType.COIN_STICKYNICKEL and player and player:HasTrinket(PredatoryPenny.id) then
         local mult = player:GetTrinketMultiplier(PredatoryPenny.id)
 
-        local rng = player:GetTrinketRNG(PredatoryPenny.id)
-        local biteChance = rng:RandomInt(1, 101)
-
-        if biteChance <= PredatoryPenny.Chance * mult then
+        if mod:trinketProbCheck(player, PredatoryPenny.id, PredatoryPenny.Chance * mult) then
             SFXManager():Play(SoundEffect.SOUND_BOSS_LITE_ROAR, 0.8)
             player:UseActiveItem(CollectibleType.COLLECTIBLE_DULL_RAZOR, UseFlag.USE_NOANIM | UseFlag.USE_MIMIC)
         end

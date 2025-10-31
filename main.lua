@@ -21,6 +21,7 @@ local trinketScripts = {
     "predatorypenny",
     "popupad",
     "steelhelm",
+    "wickedbible",
 }
 mod:LoadScripts(trinketScripts, "trinkets")
 

@@ -1,5 +1,11 @@
 local mod = NullDimention
 
+function mod:trinketProbCheck(player, id, chance)
+    local rng = player:GetTrinketRNG(id)
+    local random = rng:RandomInt(1, 101)
+    return random <= chance
+end
+
 function mod:GetRandomAroundPosition(position)
     local offsets = {
         Vector(-30, -30), Vector(0, -30), Vector(30, -30),

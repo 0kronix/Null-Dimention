@@ -2,4 +2,5 @@
     <trinket name="Predatory Penny" description="You're the victim" gfx="predatorypenny.png" />
     <trinket name="Pop-up Ad" description="Your advertisement could be here" gfx="popupad.png" />
     <trinket name="Steel Helm" description="Head defence" gfx="steelhelm.png" />
+    <trinket name="Wicked Bible" description="Gods don't prey" gfx="wickedbible.png" />
 </items>
