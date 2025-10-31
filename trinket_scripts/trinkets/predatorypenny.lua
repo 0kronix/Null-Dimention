@@ -1,16 +1,21 @@
+---- Constants ----
+
 local mod = NullDimention
 local PredatoryPenny = {}
 
+PredatoryPenny.id = Isaac.GetTrinketIdByName("Predatory Penny")
 PredatoryPenny.Chance = 5
 
+---- Descriptions ----
+
 PredatoryPenny.description = {
-	"{{Collectible486}} ".. tostring(PredatoryPenny.Chance) .."% chance for fake damage effect when picking up a coin",
+	"{{Collectible486}} ".. PredatoryPenny.Chance .."% chance for fake damage effect when picking up a coin",
 }
 PredatoryPenny.description_ru = {
-    "{{Collectible486}} ".. tostring(PredatoryPenny.Chance) .."% шанс на фальшивый эффект урона при подборе монеты",
+    "{{Collectible486}} ".. PredatoryPenny.Chance .."% шанс на фальшивый эффект урона при подборе монеты",
 }
-mod:CreateEID(TrinketType.predatorypenny, PredatoryPenny.description, "Predatory Penny")
-mod:CreateEID(TrinketType.predatorypenny, PredatoryPenny.description_ru, "Хищный пенни", "ru")
+mod:CreateEID(PredatoryPenny.id, PredatoryPenny.description, "Predatory Penny")
+mod:CreateEID(PredatoryPenny.id, PredatoryPenny.description_ru, "Хищный пенни", "ru")
 
 PredatoryPenny.goldenData = {
     Numbers = {PredatoryPenny.Chance},
@@ -18,7 +23,7 @@ PredatoryPenny.goldenData = {
         Doubled = "",
         Tripled = "",
     },
-    MaxMultiplier = 3,
+    MaxMultiplier = nil,
 }
 PredatoryPenny.goldenData_ru = {
     Numbers = {PredatoryPenny.Chance},
@@ -26,28 +31,35 @@ PredatoryPenny.goldenData_ru = {
         Doubled = "",
         Tripled = "",
     },
-    MaxMultiplier = 3,
+    MaxMultiplier = nil,
 }
 mod:AddEIDGoldenTrinketData(
-    TrinketType.predatorypenny,
+    PredatoryPenny.id,
     PredatoryPenny.goldenData.Numbers,
     PredatoryPenny.goldenData.ExtraText,
     PredatoryPenny.goldenData.MaxMultiplier )
 mod:AddEIDGoldenTrinketData(
-    TrinketType.predatorypenny,
+    PredatoryPenny.id,
     PredatoryPenny.goldenData_ru.Numbers,
     PredatoryPenny.goldenData_ru.ExtraText,
     PredatoryPenny.goldenData_ru.MaxMultiplier,
     "ru" )
 
+---- Effects ----
+
 function PredatoryPenny:onCoinPickup(coin, collider)
     local player = collider:ToPlayer()
-    if coin.SubType ~= CoinSubType.COIN_STICKYNICKEL and player and player:HasTrinket(TrinketType.predatorypenny) then
-        if math.random(1, 100) <= PredatoryPenny.Chance then
+
+    if coin.SubType ~= CoinSubType.COIN_STICKYNICKEL and player and player:HasTrinket(PredatoryPenny.id) then
+        local mult = player:GetTrinketMultiplier(PredatoryPenny.id)
+
+        local rng = player:GetTrinketRNG(PredatoryPenny.id)
+        local biteChance = rng:RandomInt(1, 101)
+
+        if biteChance <= PredatoryPenny.Chance * mult then
             SFXManager():Play(SoundEffect.SOUND_BOSS_LITE_ROAR, 0.8)
-            player:UseActiveItem(CollectibleType.COLLECTIBLE_DULL_RAZOR, false)
+            player:UseActiveItem(CollectibleType.COLLECTIBLE_DULL_RAZOR, UseFlag.USE_NOANIM | UseFlag.USE_MIMIC)
         end
     end
 end
-
 mod:AddCallback(ModCallbacks.MC_PRE_PICKUP_COLLISION, PredatoryPenny.onCoinPickup, PickupVariant.PICKUP_COIN)

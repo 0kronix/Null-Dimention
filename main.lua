@@ -11,7 +11,6 @@ end
 
 -- General
 local generalScripts = {
-	"constants",
 	"library",
 }
 mod:LoadScripts(generalScripts)
@@ -21,6 +20,7 @@ mod:LoadScripts(generalScripts)
 local trinketScripts = {
     "predatorypenny",
     "popupad",
+    "steelhelm",
 }
 mod:LoadScripts(trinketScripts, "trinkets")
 

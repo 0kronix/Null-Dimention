@@ -1,6 +1,12 @@
+---- Constants ----
+
 local mod = NullDimention
 local game = Game()
 local PopUpAd = {}
+
+PopUpAd.id = Isaac.GetTrinketIdByName("Pop-up Ad")
+
+---- Descriptions ----
 
 PopUpAd.description = {
 	"{{Collectible660}} Chance to spawn portal to {{TreasureRoom}} Treasure Room in first room of each floor",
@@ -12,8 +18,8 @@ PopUpAd.description_ru = {
     "{{Coin}} Шанс основан на количестве имеющихся у персонажа монет",
     "Портал исчезнет при выходе из комнаты"
 }
-mod:CreateEID(TrinketType.popupad, PopUpAd.description, "Pop-Up Ad")
-mod:CreateEID(TrinketType.popupad, PopUpAd.description_ru, "Всплывающая реклама", "ru")
+mod:CreateEID(PopUpAd.id, PopUpAd.description, "Pop-Up Ad")
+mod:CreateEID(PopUpAd.id, PopUpAd.description_ru, "Всплывающая реклама", "ru")
 
 PopUpAd.goldenData = {
     Numbers = {},
@@ -21,7 +27,7 @@ PopUpAd.goldenData = {
         Doubled = "Spawn {{Nickel}}Nickel in first room of each floor",
         Tripled = "Spawn {{Dime}}Dime in first room of each floor",
     },
-    MaxMultiplier = 3,
+    MaxMultiplier = nil,
 }
 PopUpAd.goldenData_ru = {
     Numbers = {},
@@ -29,34 +35,40 @@ PopUpAd.goldenData_ru = {
         Doubled = "Создаёт {{Nickel}}Никель в начале каждого этажа",
         Tripled = "Создаёт {{Dime}Дайм в начале каждого этажа",
     },
-    MaxMultiplier = 3,
+    MaxMultiplier = nil,
 }
 mod:AddEIDGoldenTrinketData(
-    TrinketType.popupad,
+    PopUpAd.id,
     PopUpAd.goldenData.Numbers,
     PopUpAd.goldenData.ExtraText,
     PopUpAd.goldenData.MaxMultiplier )
 mod:AddEIDGoldenTrinketData(
-    TrinketType.popupad,
+    PopUpAd.id,
     PopUpAd.goldenData_ru.Numbers,
     PopUpAd.goldenData_ru.ExtraText,
     PopUpAd.goldenData_ru.MaxMultiplier,
     "ru" )
 
+---- Effects ----
+
 function PopUpAd:NewFloor()
     local room = game:GetRoom()
     local player = game:GetPlayer()
-    if player:HasTrinket(TrinketType.popupad) then
-        if math.random(1, 100) <= player:GetNumCoins() then
-            SFXManager():Play(SoundEffect.SOUND_ULTRA_GREED_COINS_FALLING, 1.1)
+    
+    if player:HasTrinket(PopUpAd.id) then
+        local rng = player:GetTrinketRNG(PopUpAd.id)
+        local portalChance = rng:RandomInt(1, 101)
+
+        if portalChance <= player:GetNumCoins() then
             Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PORTAL_TELEPORT, 0, room:GetCenterPos() + Vector(100, 0), Vector(0, 0), nil)
         end
-        if player:GetTrinketMultiplier(TrinketType.popupad) == 2 then
+
+        if player:GetTrinketMultiplier(PopUpAd.id) == 2 then
             Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, 2, room:GetCenterPos() + Vector(0, 50), Vector(0,0), nil)
-        elseif player:GetTrinketMultiplier(TrinketType.popupad) == 3 then
+        elseif player:GetTrinketMultiplier(PopUpAd.id) >= 3 then
             Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, 3, room:GetCenterPos() + Vector(0, 50), Vector(0,0), nil)
         end
+        
     end
 end
-
 mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, PopUpAd.NewFloor)

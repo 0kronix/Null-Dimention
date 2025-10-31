@@ -1,4 +1,4 @@
 if not EID then return end
 
 EID:setModIndicatorName("Null Dimention")
-EID:setModIndicatorIcon("Trinket"..TrinketType.predatorypenny)
+EID:setModIndicatorIcon("Trinket"..Isaac.GetTrinketIdByName("Predatory Penny"))
