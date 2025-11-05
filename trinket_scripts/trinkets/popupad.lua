@@ -56,10 +56,7 @@ function PopUpAd:NewFloor()
     local player = game:GetPlayer()
     
     if player:HasTrinket(PopUpAd.id) then
-        local rng = player:GetTrinketRNG(PopUpAd.id)
-        local portalChance = rng:RandomInt(1, 101)
-
-        if portalChance <= player:GetNumCoins() then
+        if mod:trinketProbCheck(player, PopUpAd.id, player:GetNumCoins()) then
             Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PORTAL_TELEPORT, 0, room:GetCenterPos() + Vector(100, 0), Vector(0, 0), nil)
         end
 

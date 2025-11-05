@@ -22,6 +22,13 @@ local trinketScripts = {
     "popupad",
     "steelhelm",
     "wickedbible",
+    "buckler",
+    "amuletofdawn",
+    "spidercocoon",
+    "dirtball",
+    "smilesticker",
+    "spartanrage",
+    "keycloner",
 }
 mod:LoadScripts(trinketScripts, "trinkets")
 

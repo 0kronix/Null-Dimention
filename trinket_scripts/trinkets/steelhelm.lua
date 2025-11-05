@@ -6,7 +6,6 @@ local SteelHelm = {}
 
 SteelHelm.id = Isaac.GetTrinketIdByName("Steel Helm")
 SteelHelm.Hits = 10
-SteelHelm.Count = 0
 
 ---- Descriptions ----
 
@@ -52,19 +51,19 @@ mod:AddEIDGoldenTrinketData(
 function SteelHelm:entityTakeDMG(entity, _, _, _, _)
     local player = entity:ToPlayer()
     local room = game:GetRoom()
+    local data = player:GetData()
 
     if player:HasTrinket(SteelHelm.id) then
-        SteelHelm.Count = SteelHelm.Count + 1
+        data.steelHelmCount = (data.steelHelmCount or 0) + 1
         local mult = player:GetTrinketMultiplier(SteelHelm.id)
 
-        if SteelHelm.Count >= SteelHelm.Hits then
-            SteelHelm.Count = 0
-
-            local freePos = room:FindFreePickupSpawnPosition(mod:GetRandomAroundPosition(player.Position), 0, true)
-
+        if data.steelHelmCount >= SteelHelm.Hits then
+            data.steelHelmCount = 0
+            
             local heart = mult >= 2 and HeartSubType.HEART_SOUL or HeartSubType.HEART_HALF_SOUL
 
-            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, heart, freePos, Vector(0,0), nil)
+            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, heart, 
+                mod:GetRandomAroundPosition(player.Position), Vector(0,0), nil)
         end
     end
 end
