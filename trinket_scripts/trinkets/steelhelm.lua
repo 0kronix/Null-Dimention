@@ -63,7 +63,7 @@ function SteelHelm:entityTakeDMG(entity, _, _, _, _)
             local heart = mult >= 2 and HeartSubType.HEART_SOUL or HeartSubType.HEART_HALF_SOUL
 
             Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, heart, 
-                mod:GetRandomAroundPosition(player.Position), Vector(0,0), nil)
+                room:FindFreePickupSpawnPosition(mod:GetRandomAroundPosition(player.Position)), Vector(0,0), nil)
         end
     end
 end

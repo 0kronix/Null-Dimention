@@ -29,6 +29,18 @@ local trinketScripts = {
     "smilesticker",
     "spartanrage",
     "keycloner",
+    "devilsdelivery",
+    "8bitmush",
+    "scratchcard",
+    "valuabletoken",
+    "portablecannon",
+    "metalfeather",
+    "potatobattery",
+    "woodentotem",
+    "frictionfiction",
+    "collectablecard",
+    "chameleonseye",
+    "caramelbean",
 }
 mod:LoadScripts(trinketScripts, "trinkets")
 

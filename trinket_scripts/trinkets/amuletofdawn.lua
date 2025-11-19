@@ -56,7 +56,7 @@ function AmuletOfDawn:useSun(_, player, _)
 
         if mod:trinketProbCheck(player, AmuletOfDawn.id, AmuletOfDawn.Chance * mult) then
             Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_TAROTCARD, Card.CARD_MOON, 
-                mod:GetRandomAroundPosition(player.Position), Vector(0,0), nil)
+                room:FindFreePickupSpawnPosition(mod:GetRandomAroundPosition(player.Position)), Vector(0,0), nil)
         end
     end
 end

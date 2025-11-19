@@ -2,13 +2,24 @@
     <trinket name="Predatory Penny" description="You're the victim" gfx="predatorypenny.png" />
     <trinket name="Pop-up Ad" description="Your advertisement could be here" gfx="popupad.png" />
     <trinket name="Steel Helm" description="Head defence" gfx="steelhelm.png" />
-    <trinket name="Wicked Bible" description="Gods don't prey" gfx="wickedbible.png" />
-    <trinket name="Buckler" description="Round mini-shield" gfx="buckler.png" />
+    <trinket name="Wicked Bible" description="Gods don't prey" gfx="wickedbible.png" tags="nogreed" />
+    <trinket name="Buckler" description="Round mini-shield" gfx="buckler.png" tags="nogreed" />
     <trinket name="Amulet of Dawn" description="Rise and shine?" gfx="amuletofdawn.png" />
-    <trinket name="Spider Cocoon" description="There is a spider hidden under coin!" gfx="blank.png" />
-    <trinket name="Dirt Ball" description="Messy mess" gfx="blank.png" />
-    <trinket name="Smile Sticker" description="Only smile =)" gfx="blank.png" />
-    <trinket name="Spartan Rage" description="The power of the Colosseum" gfx="blank.png" />
+    <trinket name="Spider Cocoon" description="There is a spider hidden under coin!" gfx="spidercocoon.png" />
+    <trinket name="Dirt Ball" description="Messy mess" gfx="dirtball.png" />
+    <trinket name="Smile Sticker" description="Only smile =)" gfx="smilesticker.png" tags="nogreed" />
+    <trinket name="Spartan Rage" description="Power of the Colosseum" gfx="blank.png" tags="nogreed" />
     <trinket name="Key Cloner" description="1+1=3" gfx="blank.png" />
     <trinket name="Devil's Delivery" description="Advantageous offer" gfx="blank.png" />
+    <trinket name="8-bit Mush" description="Size down" gfx="8bitmush.png" />
+    <trinket name="Scratch Card" description="Match 3 to win" gfx="blank.png" tags="nogreed"/>
+    <trinket name="Valuable Token" description="NFT" gfx="blank.png" />
+    <trinket name="Portable Cannon" description="To board!" gfx="blank.png" tags="nogreed"/>
+    <trinket name="Metal Feather" description="Caw-caw" gfx="blank.png" tags="nogreed" />
+    <trinket name="Potato Battery" description="Zero charge" gfx="blank.png" tags="nogreed" />
+    <trinket name="Wooden Totem" description="Wooden blessing" gfx="blank.png" tags="nogreed" />
+    <trinket name="Friction Fiction" description="The legend of good balance" gfx="blank.png" cache="speed shotspeed" />
+    <trinket name="Collectable Card" description="Collect em all" gfx="blank.png" />
+    <trinket name="Chameleon's Eye" description="Colorful eye" gfx="blank.png" />
+    <trinket name="Caramel Bean" description="Taste of death" gfx="blank.png" />
 </items>

@@ -57,7 +57,7 @@ function KeyCloner:onKeyPickup(key, collider)
 
         if mod:trinketProbCheck(player, KeyCloner.id, KeyCloner.Chance * mult) then
             Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_KEY, 1,
-                mod:GetRandomAroundPosition(player.Position), Vector(0,0), nil)
+                room:FindFreePickupSpawnPosition(mod:GetRandomAroundPosition(player.Position)), Vector(0,0), nil)
         end
     end
 end
