@@ -1,6 +1,6 @@
 ---- Constants ----
 
-local mod = NullDimention
+local mod = NullDimension
 local game = Game()
 local CaramelBean = {}
 
@@ -10,10 +10,10 @@ CaramelBean.Chance = 6
 ---- Descriptions ----
 
 CaramelBean.description = {
-	""
+	"Enemies have ".. CaramelBean.Chance .."% to fart upon death"
 }
 CaramelBean.description_ru = {
-    ""
+    "Враги имеют шанс ".. CaramelBean.Chance .."% пукнуть после смерти"
 }
 mod:CreateEID(CaramelBean.id, CaramelBean.description, "Caramel Bean")
 mod:CreateEID(CaramelBean.id, CaramelBean.description_ru, "Карамельный боб", "ru")
@@ -48,10 +48,15 @@ mod:AddEIDGoldenTrinketData(
 
 ---- Effects ----
 
-function LDLm:PostNPCDeath(entityNPC)
-    if PlayerManager.AnyoneHasCollectible(CaramelBean.id) then
-        
+function CaramelBean:postNPCDeath(entity)
+    local player = game:GetPlayer()
+
+    if player:HasTrinket(CaramelBean.id) then
+        local mult = player:GetTrinketMultiplier(CaramelBean.id)
+
+        if entity:IsEnemy() and mod:trinketProbCheck(player, CaramelBean.id, CaramelBean.Chance * mult) then
+            game:Fart(entity.Position, 85, entity, 1, 0, Color.Default)
+        end
     end
 end
-
-LDLm:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, LDLm.PostNPCDeath)
+mod:AddCallback(ModCallbacks.MC_POST_NPC_DEATH, CaramelBean.postNPCDeath)

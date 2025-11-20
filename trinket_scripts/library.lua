@@ -1,4 +1,4 @@
-local mod = NullDimention
+local mod = NullDimension
 
 function mod:trinketProbCheck(player, id, chance)
     local rng = player:GetTrinketRNG(id)

@@ -1,6 +1,6 @@
 ---- Constants ----
 
-local mod = NullDimention
+local mod = NullDimension
 local PredatoryPenny = {}
 
 PredatoryPenny.id = Isaac.GetTrinketIdByName("Predatory Penny")

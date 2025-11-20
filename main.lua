@@ -1,5 +1,5 @@
-NullDimention = RegisterMod("Null Dimention", 1)
-local mod = NullDimention
+NullDimension = RegisterMod("Null Dimension", 1)
+local mod = NullDimension
 
 --[[ Load scripts ]]--
 function mod:LoadScripts(scripts, subfolder)
