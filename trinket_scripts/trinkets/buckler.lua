@@ -49,17 +49,18 @@ mod:AddEIDGoldenTrinketData(
 ---- Effects ----
 
 function Buckler:roomEnter()
-    local player = game:GetPlayer()
     local room = game:GetRoom()
+    
+    for _, player in pairs(PlayerManager.GetPlayers()) do
+        if player:HasTrinket(Buckler.id) then
+            local mult = player:GetTrinketMultiplier(Buckler.id)
+            local sec = Buckler.Sec * 60 * mult
 
-    if player:HasTrinket(Buckler.id) then
-        local mult = player:GetTrinketMultiplier(Buckler.id)
-        local sec = Buckler.Sec * 60 * mult
-
-        if not room:IsClear() then
-            SFXManager():Play(SoundEffect.SOUND_SCYTHE_BREAK, 1)
-            player:SetMinDamageCooldown(sec)
-            player:SetColor(Color(1, 1, 1, 0.5), sec / 2, 0, false, false)
+            if not room:IsClear() then
+                SFXManager():Play(SoundEffect.SOUND_SCYTHE_BREAK, 1)
+                player:SetMinDamageCooldown(sec)
+                player:SetColor(Color(1, 1, 1, 0.5), sec / 2, 0, false, false)
+            end
         end
     end
 end

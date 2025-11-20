@@ -60,23 +60,24 @@ mod:AddEIDGoldenTrinketData(
 ---- Effects ----
 
 function ScratchCard:roomClear()
-    local player = game:GetPlayer()
     local room = game:GetRoom()
+    
+    for _, player in pairs(PlayerManager.GetPlayers()) do
+        if player:HasTrinket(ScratchCard.id) then
+            local rng = player:GetTrinketRNG(ScratchCard.id)
+            local random = rng:RandomInt(1, 101)
 
-    if player:HasTrinket(ScratchCard.id) then
-        local rng = player:GetTrinketRNG(ScratchCard.id)
-        local random = rng:RandomInt(1, 101)
-
-        if random > ScratchCard.Chances[1] and random <= ScratchCard.Chances[2] then
-            player:AddCoins(-5)
-            player:AnimateSad()
-        elseif random > ScratchCard.Chances[2] and random <= ScratchCard.Chances[3] then
-            player:AddCoins(3)
-            player:AnimateHappy()
-        elseif random > ScratchCard.Chances[3] then
-            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, CoinSubType.COIN_GOLDEN, 
-                room:FindFreePickupSpawnPosition(mod:GetRandomAroundPosition(player.Position)), Vector(0,0), nil)
-            SFXManager():Play(SoundEffect.SOUND_1UP, 0.5)
+            if random > ScratchCard.Chances[1] and random <= ScratchCard.Chances[2] then
+                player:AddCoins(-5)
+                player:AnimateSad()
+            elseif random > ScratchCard.Chances[2] and random <= ScratchCard.Chances[3] then
+                player:AddCoins(3)
+                player:AnimateHappy()
+            elseif random > ScratchCard.Chances[3] then
+                Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, CoinSubType.COIN_GOLDEN, 
+                    room:FindFreePickupSpawnPosition(mod:GetRandomAroundPosition(player.Position)), Vector(0,0), nil)
+                SFXManager():Play(SoundEffect.SOUND_1UP, 0.5)
+            end
         end
     end
 end

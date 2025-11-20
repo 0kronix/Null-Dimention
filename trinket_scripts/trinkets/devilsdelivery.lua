@@ -56,25 +56,27 @@ function DevilsDelivery:NewFloor()
     local room = game:GetRoom()
     local player = game:GetPlayer()
     
-    if player:HasTrinket(DevilsDelivery.id) then
-        if player:GetMaxHearts() >= DevilsDelivery.HeartsNeed * 2 then
-            local devilDealItem = game:GetItemPool():GetCollectible(ItemPoolType.POOL_DEVIL, true)
-            local mult = player:GetTrinketMultiplier(DevilsDelivery.id)
+    for _, player in pairs(PlayerManager.GetPlayers()) do
+        if player:HasTrinket(DevilsDelivery.id) then
+            if player:GetMaxHearts() >= DevilsDelivery.HeartsNeed * 2 then
+                local devilDealItem = game:GetItemPool():GetCollectible(ItemPoolType.POOL_DEVIL, true)
+                local mult = player:GetTrinketMultiplier(DevilsDelivery.id)
 
-            player:AddMaxHearts(-DevilsDelivery.Cost * 2, true)
-            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, devilDealItem, room:GetCenterPos() + DevilsDelivery.Vectors[1], Vector(0,0), nil)
+                player:AddMaxHearts(-DevilsDelivery.Cost * 2, true)
+                Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COLLECTIBLE, devilDealItem, room:GetCenterPos() + DevilsDelivery.Vectors[1], Vector(0,0), nil)
 
-            player:AnimateTrinket(DevilsDelivery.id)
+                player:AnimateTrinket(DevilsDelivery.id)
 
-            if mult >= 2 then
-                for i = 1, mult - 1 do
-                    Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, 6, 
-                        room:GetCenterPos() + DevilsDelivery.Vectors[(i % 2) + 1], Vector(0,0), nil)
+                if mult >= 2 then
+                    for i = 1, mult - 1 do
+                        Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_HEART, 6, 
+                            room:GetCenterPos() + DevilsDelivery.Vectors[(i % 2) + 1], Vector(0,0), nil)
+                    end
                 end
             end
-        end
 
         player:TryRemoveTrinket(DevilsDelivery.id)
+        end
     end
 end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, DevilsDelivery.NewFloor)

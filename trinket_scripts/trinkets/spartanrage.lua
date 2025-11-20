@@ -49,18 +49,19 @@ mod:AddEIDGoldenTrinketData(
 ---- Effects ----
 
 function SpartanRage:roomEnter()
-    local player = game:GetPlayer()
     local room = game:GetRoom()
+    
+    for _, player in pairs(PlayerManager.GetPlayers()) do
+        if player:HasTrinket(SpartanRage.id) then
+            if room:GetRoomShape() == RoomShape.ROOMSHAPE_2x2 then
+                local mult = player:GetTrinketMultiplier(SpartanRage.id)
+                local data = player:GetData()
 
-    if player:HasTrinket(SpartanRage.id) then
-        if room:GetRoomShape() == RoomShape.ROOMSHAPE_2x2 then
-            local mult = player:GetTrinketMultiplier(SpartanRage.id)
-            local data = player:GetData()
+                data.sparta = data.sparta or 0
+                data.sparta = SpartanRage.DMG * mult
 
-            data.sparta = data.sparta or 0
-            data.sparta = SpartanRage.DMG * mult
-
-            player:AddCacheFlags(CacheFlag.CACHE_DAMAGE, true)
+                player:AddCacheFlags(CacheFlag.CACHE_DAMAGE, true)
+            end
         end
     end
 end

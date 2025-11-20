@@ -48,11 +48,10 @@ mod:AddEIDGoldenTrinketData(
 ---- Effects ----
 
 function CollectableCard:shopEnter()
-    local player = game:GetPlayer()
     local room = game:GetRoom()
 
-    if player:HasTrinket(CollectableCard.id) then
-        local mult = player:GetTrinketMultiplier(CollectableCard.id)
+    if PlayerManager.AnyoneHasTrinket(CollectableCard.id) then
+        local mult = PlayerManager.GetTotalTrinketMultiplier(CollectableCard.id)
 
         if room:GetType() == RoomType.ROOM_SHOP then
             for _, item in ipairs(Isaac.FindByType(5, 300)) do

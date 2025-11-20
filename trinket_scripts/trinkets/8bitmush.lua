@@ -52,27 +52,27 @@ mod:AddEIDGoldenTrinketData(
 ---- Effects ----
 
 function eBitMush:NewFloor()
-    local player = game:GetPlayer()
-    local data = player:GetData()
-    
-    if player:HasTrinket(eBitMush.id) then
-        local mult = player:GetTrinketMultiplier(eBitMush.id)
+    for _, player in pairs(PlayerManager.GetPlayers()) do
+        if player:HasTrinket(eBitMush.id) then
+            local mult = player:GetTrinketMultiplier(eBitMush.id)
+            local data = player:GetData()
 
-        data.bitMush = data.bitMush or 0
-        data.bitMush = data.bitMush + eBitMush.Percent * mult
+            data.bitMush = data.bitMush or 0
+            data.bitMush = data.bitMush + eBitMush.Percent * mult
 
-        if mod:trinketProbCheck(player, eBitMush.id, eBitMush.Chance * mult) then
-            player:TryRemoveTrinket(eBitMush.id)
+            if mod:trinketProbCheck(player, eBitMush.id, eBitMush.Chance * mult) then
+                player:TryRemoveTrinket(eBitMush.id)
 
-            data.bitMush = -50
+                data.bitMush = -50
 
-            player:AnimateSad()
-        else
-            player:AnimateTrinket(eBitMush.id)
-            SFXManager():Play(SoundEffect.SOUND_1UP, 0.8)
+                player:AnimateSad()
+            else
+                player:AnimateTrinket(eBitMush.id)
+                SFXManager():Play(SoundEffect.SOUND_1UP, 0.8)
+            end
+
+            player:AddCacheFlags(CacheFlag.CACHE_SIZE, true)
         end
-
-        player:AddCacheFlags(CacheFlag.CACHE_SIZE, true)
     end
 end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, eBitMush.NewFloor)

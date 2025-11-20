@@ -49,19 +49,19 @@ mod:AddEIDGoldenTrinketData(
 ---- Effects ----
 
 function SmileSticker:onBossDefeat(_, spawnPos)
-    local player = game:GetPlayer()
+    for _, player in pairs(PlayerManager.GetPlayers()) do
+        if player:HasTrinket(SmileSticker.id) then
+            local room = game:GetRoom()
+            local level = game:GetLevel()
 
-    if player:HasTrinket(SmileSticker.id) then
-        local room = game:GetRoom()
-        local level = game:GetLevel()
+            if room:GetType() == RoomType.ROOM_BOSS and ((level:GetStageType() <= StageType.STAGETYPE_AFTERBIRTH and level:GetStage() <= LevelStage.STAGE4_2) or (level:GetStageType() >= StageType.STAGETYPE_REPENTANCE and level:GetStage() <= LevelStage.STAGE4_1)) then
+                local mult = player:GetTrinketMultiplier(SmileSticker.id)
 
-        if room:GetType() == RoomType.ROOM_BOSS and ((level:GetStageType() <= StageType.STAGETYPE_AFTERBIRTH and level:GetStage() <= LevelStage.STAGE4_2) or (level:GetStageType() >= StageType.STAGETYPE_REPENTANCE and level:GetStage() <= LevelStage.STAGE4_1)) then
-            local mult = player:GetTrinketMultiplier(SmileSticker.id)
+                if mod:trinketProbCheck(player, SmileSticker.id, SmileSticker.Chance * mult) then
+                    local pos = player:HasCollectible(CollectibleType.COLLECTIBLE_THERES_OPTIONS) and (spawnPos + Vector(120, 40)) or (spawnPos + Vector(80, 40))
 
-            if mod:trinketProbCheck(player, SmileSticker.id, SmileSticker.Chance * mult) then
-                local pos = player:HasCollectible(CollectibleType.COLLECTIBLE_THERES_OPTIONS) and (spawnPos + Vector(120, 40)) or (spawnPos + Vector(80, 40))
-
-                Isaac.Spawn(5, 350, 0, room:FindFreePickupSpawnPosition(pos, 35), Vector(0, 0), player):ToPickup()
+                    Isaac.Spawn(5, 350, 0, room:FindFreePickupSpawnPosition(pos, 35), Vector(0, 0), nil):ToPickup()
+                end
             end
         end
     end

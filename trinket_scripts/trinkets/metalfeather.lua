@@ -54,25 +54,26 @@ mod:AddEIDGoldenTrinketData(
 ---- Effects ----
 
 function MetalFeather:roomClear()
-    local player = game:GetPlayer()
-    local data = player:GetData()
+    for _, player in pairs(PlayerManager.GetPlayers()) do
+        if player:HasTrinket(MetalFeather.id) then
+            local data = player:GetData()
 
-    data.metalDMG = data.metalDMG or 0
-    data.metalCount = data.metalCount or 0
-    data.isMetalDMG = data.isMetalDMG or false
+            data.metalDMG = data.metalDMG or 0
+            data.metalCount = data.metalCount or 0
+            data.isMetalDMG = data.isMetalDMG or false
 
-    if player:HasTrinket(MetalFeather.id) then
-        if not data.isMetalDMG then
-            data.metalDMG = data.metalDMG + 1
+            if not data.isMetalDMG then
+                data.metalDMG = data.metalDMG + 1
 
-            if data.metalDMG >= MetalFeather.NeedDMG then
-                data.metalDMG = 0
-                data.metalCount = data.metalCount + MetalFeather.DMG
+                if data.metalDMG >= MetalFeather.NeedDMG then
+                    data.metalDMG = 0
+                    data.metalCount = data.metalCount + MetalFeather.DMG
 
-                player:AddCacheFlags(CacheFlag.CACHE_DAMAGE, true)
+                    player:AddCacheFlags(CacheFlag.CACHE_DAMAGE, true)
+                end
+            else
+                data.isMetalDMG = false
             end
-        else
-            data.isMetalDMG = false
         end
     end
 end

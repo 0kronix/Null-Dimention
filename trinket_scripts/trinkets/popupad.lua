@@ -53,19 +53,20 @@ mod:AddEIDGoldenTrinketData(
 
 function PopUpAd:NewFloor()
     local room = game:GetRoom()
-    local player = game:GetPlayer()
     
-    if player:HasTrinket(PopUpAd.id) then
-        if mod:trinketProbCheck(player, PopUpAd.id, player:GetNumCoins()) then
-            Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PORTAL_TELEPORT, 0, room:GetCenterPos() + Vector(100, 0), Vector(0, 0), nil)
-        end
+    for _, player in pairs(PlayerManager.GetPlayers()) do
+        if player:HasTrinket(PopUpAd.id) then
+            if mod:trinketProbCheck(player, PopUpAd.id, player:GetNumCoins()) then
+                Isaac.Spawn(EntityType.ENTITY_EFFECT, EffectVariant.PORTAL_TELEPORT, 0, room:GetCenterPos() + Vector(100, 0), Vector(0, 0), nil)
+            end
 
-        if player:GetTrinketMultiplier(PopUpAd.id) == 2 then
-            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, 2, room:GetCenterPos() + Vector(0, 50), Vector(0,0), nil)
-        elseif player:GetTrinketMultiplier(PopUpAd.id) >= 3 then
-            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, 3, room:GetCenterPos() + Vector(0, 50), Vector(0,0), nil)
+            if player:GetTrinketMultiplier(PopUpAd.id) == 2 then
+                Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, 2, room:GetCenterPos() + Vector(0, 50), Vector(0,0), nil)
+            elseif player:GetTrinketMultiplier(PopUpAd.id) >= 3 then
+                Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_COIN, 3, room:GetCenterPos() + Vector(0, 50), Vector(0,0), nil)
+            end
+            
         end
-        
     end
 end
 mod:AddCallback(ModCallbacks.MC_POST_NEW_LEVEL, PopUpAd.NewFloor)

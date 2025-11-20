@@ -49,15 +49,16 @@ mod:AddEIDGoldenTrinketData(
 ---- Effects ----
 
 function WoodenTotem:roomClear()
-    local player = game:GetPlayer()
     local room = game:GetRoom()
+    
+    for _, player in pairs(PlayerManager.GetPlayers()) do
+        if player:HasTrinket(WoodenTotem.id) then
+            local mult = player:GetTrinketMultiplier(WoodenTotem.id)
 
-    if player:HasTrinket(WoodenTotem.id) then
-        local mult = player:GetTrinketMultiplier(WoodenTotem.id)
-
-        if mod:trinketProbCheck(player, WoodenTotem.id, WoodenTotem.Chance * mult) then
-            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_WOODENCHEST, 0, 
-                room:FindFreePickupSpawnPosition(room:GetCenterPos()), Vector(0,0), nil)
+            if mod:trinketProbCheck(player, WoodenTotem.id, WoodenTotem.Chance * mult) then
+                Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_WOODENCHEST, 0, 
+                    room:FindFreePickupSpawnPosition(room:GetCenterPos()), Vector(0,0), nil)
+            end
         end
     end
 end

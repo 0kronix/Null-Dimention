@@ -49,17 +49,17 @@ mod:AddEIDGoldenTrinketData(
 ---- Effects ----
 
 function WickedBible:roomClear()
-    local player = game:GetPlayer()
+    for _, player in pairs(PlayerManager.GetPlayers()) do
+        if player:HasTrinket(WickedBible.id) then
+            local mult = player:GetTrinketMultiplier(WickedBible.id)
 
-    if player:HasTrinket(WickedBible.id) then
-        local mult = player:GetTrinketMultiplier(WickedBible.id)
+            if mod:trinketProbCheck(player, WickedBible.id, WickedBible.Chance * mult) then
+                SFXManager():Play(SoundEffect.SOUND_HOLY, 0.5)
+                player:UseActiveItem(CollectibleType.COLLECTIBLE_BIBLE, UseFlag.USE_MIMIC)
 
-        if mod:trinketProbCheck(player, WickedBible.id, WickedBible.Chance * mult) then
-            SFXManager():Play(SoundEffect.SOUND_HOLY, 0.5)
-            player:UseActiveItem(CollectibleType.COLLECTIBLE_BIBLE, UseFlag.USE_MIMIC)
-
-            player:ResetDamageCooldown()
-            player:TakeDamage(1, DamageFlag.DAMAGE_INVINCIBLE | DamageFlag.DAMAGE_NO_MODIFIERS | DamageFlag.DAMAGE_NO_PENALTIES, EntityRef(player), 24)
+                player:ResetDamageCooldown()
+                player:TakeDamage(1, DamageFlag.DAMAGE_INVINCIBLE | DamageFlag.DAMAGE_NO_MODIFIERS | DamageFlag.DAMAGE_NO_PENALTIES, EntityRef(player), 24)
+            end
         end
     end
 end

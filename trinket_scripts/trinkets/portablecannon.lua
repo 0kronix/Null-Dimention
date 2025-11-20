@@ -51,9 +51,9 @@ function PortableCannon:bossRoomEnter()
     local player = game:GetPlayer()
     local room = game:GetRoom()
 
-    if player:HasTrinket(PortableCannon.id) then
+    if PlayerManager.AnyoneHasTrinket(PortableCannon.id) then
         if room:GetType() == RoomType.ROOM_BOSS then
-            Isaac.Spawn(EntityType.ENTITY_PICKUP    , PickupVariant.PICKUP_THROWABLEBOMB, 0, 
+            Isaac.Spawn(EntityType.ENTITY_PICKUP, PickupVariant.PICKUP_THROWABLEBOMB, 0, 
                 room:FindFreePickupSpawnPosition(room:GetRandomPosition(35)), Vector(0,0), nil)
         end
     end

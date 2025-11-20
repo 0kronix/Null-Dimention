@@ -49,10 +49,8 @@ mod:AddEIDGoldenTrinketData(
 ---- Effects ----
 
 function CaramelBean:postNPCDeath(entity)
-    local player = game:GetPlayer()
-
-    if player:HasTrinket(CaramelBean.id) then
-        local mult = player:GetTrinketMultiplier(CaramelBean.id)
+    if PlayerManager.AnyoneHasTrinket(CaramelBean.id) then
+        local mult = PlayerManager.GetTotalTrinketMultiplier(CaramelBean.id)
 
         if entity:IsEnemy() and mod:trinketProbCheck(player, CaramelBean.id, CaramelBean.Chance * mult) then
             game:Fart(entity.Position, 85, entity, 1, 0, Color.Default)

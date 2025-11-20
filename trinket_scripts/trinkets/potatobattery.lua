@@ -51,15 +51,18 @@ mod:AddEIDGoldenTrinketData(
 ---- Effects ----
 
 function PotatoBattery:roomEnter()
-    local player = game:GetPlayer()
     local room = game:GetRoom()
 
-    if player:HasTrinket(PotatoBattery.id) and not room:IsClear() then
-        local activeItem = (Isaac.GetItemConfig():GetCollectible(player:GetActiveItem(ActiveSlot.SLOT_PRIMARY))).MaxCharges
+    if not room:IsClear() then
+        for _, player in pairs(PlayerManager.GetPlayers()) do
+            if player:HasTrinket(PotatoBattery.id) then
+                local activeItem = (Isaac.GetItemConfig():GetCollectible(player:GetActiveItem(ActiveSlot.SLOT_PRIMARY))).MaxCharges
 
-        if activeItem and activeItem <= PotatoBattery.MaxCharges 
-            and player:GetActiveCharge(ActiveSlot.SLOT_PRIMARY) == 0 then
-            player:UseActiveItem(player:GetActiveItem(ActiveSlot.SLOT_PRIMARY), UseFlag.USE_MIMIC)
+                if activeItem and activeItem <= PotatoBattery.MaxCharges 
+                and player:GetActiveCharge(ActiveSlot.SLOT_PRIMARY) == 0 then
+                    player:UseActiveItem(player:GetActiveItem(ActiveSlot.SLOT_PRIMARY), UseFlag.USE_MIMIC)
+                end
+            end
         end
     end
 end
